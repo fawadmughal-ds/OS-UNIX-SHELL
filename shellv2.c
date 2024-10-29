@@ -20,3 +20,17 @@ void handle_redirection(char **args) {
     }
 }
 
+// Executes a command with redirection capability
+void execute_command_v2(char **args) {
+    pid_t pid = fork(); // Fork a new process
+    if (pid == 0) { // Child process
+        handle_redirection(args); // Handle input/output redirection
+        execvp(args[0], args); // Execute the command
+        perror("Execution failed"); // Error if execvp fails
+        exit(EXIT_FAILURE);
+    } else if (pid > 0) { // Parent process
+        wait(NULL); // Wait for the child process
+    }
+}
+
+
