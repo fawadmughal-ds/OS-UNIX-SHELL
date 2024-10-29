@@ -33,4 +33,20 @@ void execute_command_v2(char **args) {
     }
 }
 
+int main() {
+    char input[MAX_CMD_LEN];
+    char *args[MAX_ARGS];
+
+    while (1) {
+        display_prompt();
+        if (fgets(input, MAX_CMD_LEN, stdin) == NULL) {
+            printf("\nExiting shell...\n");
+            break;
+        }
+        if (parse_command(input, args) > 0) {
+            execute_command_v2(args); // Execute command with redirection
+        }
+    }
+    return 0;
+}
 
