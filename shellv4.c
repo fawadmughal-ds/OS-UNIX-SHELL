@@ -14,3 +14,14 @@ void add_to_history(char *input) {
         history[HISTORY_SIZE - 1] = strdup(input);
     }
 }
+// Execute a command from history
+void execute_history(char **args) {
+    if (args[0][1] == '!') {
+        int cmd_num = atoi(args[0] + 1) - 1; // Convert to integer, 1-based indexing
+        if (cmd_num >= 0 && cmd_num < history_count) {
+            strcpy(args[0], history[cmd_num]); // Replace with command from history
+        }
+    }
+    execute_command_v3(args); // Execute command
+}
+
