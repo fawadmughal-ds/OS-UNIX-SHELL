@@ -25,3 +25,24 @@ void execute_history(char **args) {
     execute_command_v3(args); // Execute command
 }
 
+int main() {
+    char input[MAX_CMD_LEN];
+    char *args[MAX_ARGS];
+
+    while (1) {
+        display_prompt();
+        if (fgets(input, MAX_CMD_LEN, stdin) == NULL) {
+            printf("\nExiting shell...\n");
+            break;
+        }
+        add_to_history(input); // Add command to history
+        if (parse_command(input, args) > 0) {
+            if (args[0][0] == '!') { // Check for history execution
+                execute_history(args);
+            } else {
+                execute_command_v3(args);
+            }
+        }
+    }
+    return 0;
+}
